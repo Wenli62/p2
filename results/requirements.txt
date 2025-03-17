@@ -1,0 +1,6 @@
+Flask
+pymongo
+gunicorn
+jinja2
+PyYAML
+pyjwt

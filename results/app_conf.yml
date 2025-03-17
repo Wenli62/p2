@@ -1,0 +1,9 @@
+version: 1
+mongodb_data: 
+  user: root
+  password: zxcvbnm
+  hostname: mongo
+  port: 27017
+  db: db_stats
+
+secret_key: "3495project1"

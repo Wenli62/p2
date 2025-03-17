@@ -1,0 +1,9 @@
+version: 1
+datastore:
+  user: root
+  password: zxcvbnm
+  hostname: mysql
+  port: 3306
+  db: db_grade
+
+secret_key: "3495project1"

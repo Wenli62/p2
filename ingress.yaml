@@ -1,0 +1,54 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+  # annotations:
+  #   nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  ingressClassName: nginx
+  rules:
+  # - host: myapp.example3495.com 
+  - http:
+      paths:
+      - path: /auth
+        pathType: Prefix
+        backend:
+          service:
+            name: auth
+            port:
+              number: 5000
+      - path: /dashboard
+        pathType: Prefix
+        backend:
+          service:
+            name: auth
+            port:
+              number: 5000
+      - path: /grade
+        pathType: Prefix
+        backend:
+          service:
+            name: grade
+            port:
+              number: 5010
+      - path: /static
+        pathType: Prefix
+        backend:
+          service:
+            name: grade
+            port:
+              number: 5010
+      - path: /storage/submit_grade
+        pathType: Prefix
+        backend:
+          service:
+            name: storage
+            port:
+              number: 5020     
+      - path: /results
+        pathType: Prefix
+        backend:
+          service:
+            name: results
+            port:
+              number: 5030      

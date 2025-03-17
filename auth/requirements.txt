@@ -1,0 +1,6 @@
+Flask
+gunicorn
+pydantic
+jinja2
+pyjwt
+PyYAML
