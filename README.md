@@ -17,7 +17,7 @@
 `kubectl get svc -n ingress-nginx`  ####maybe use hostname later
 
 7. login:
-http://<EXTERNAL-IP>/auth
+`http://<EXTERNAL-IP>/auth`
 
 `username: admin`
 `password: 3495admin`
