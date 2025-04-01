@@ -1,22 +1,25 @@
 1. adding ingress controller:
 `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.2/deploy/static/provider/cloud/deploy.yaml`
 
-2. adding secret:
+2. adding namespace: 
+`kubectl apply -f n.yaml`
+
+3. adding secret:
 `kubectl apply -f secret.yaml`
 
-3. adding configMap:
+4. adding configMap:
 `kubectl apply -f configMap.yaml`
 
-4. creating ingress:
+5. creating ingress:
 `kubectl apply -f ingress.yaml`
 
-5. deploy:
+6. deploy:
 `kubectl apply -f deploy.yaml`
 
-6. check login IP:
+7. check login IP:
 `kubectl get svc -n ingress-nginx`  ####maybe use hostname later
 
-7. login:
+8. login:
 `http://<EXTERNAL-IP>/auth`
 
 `username: admin`

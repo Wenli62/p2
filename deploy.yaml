@@ -1,8 +1,8 @@
----
 apiVersion: v1
 kind: Service
 metadata:
   name: auth
+  namespace: 3495p2
 spec:
   type: ClusterIP
   ports:
@@ -16,6 +16,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: auth
+  namespace: 3495p2
 spec:
   replicas: 1
   selector:
@@ -41,6 +42,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: grade
+  namespace: 3495p2
 spec:
   type: ClusterIP
   ports:
@@ -54,6 +56,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: grade
+  namespace: 3495p2
 spec:
   replicas: 1
   selector:
@@ -81,6 +84,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mysql-pvc
+  namespace: 3495p2
 spec:
   accessModes:
     - ReadWriteOnce
@@ -92,6 +96,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mysql
+  namespace: 3495p2
 spec:
   selector:
     app: mysql
@@ -104,6 +109,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mysql
+  namespace: 3495p2
 spec:
   replicas: 1
   selector:
@@ -141,6 +147,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mongo-pvc
+  namespace: 3495p2
 spec:
   accessModes:
     - ReadWriteOnce
@@ -152,6 +159,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mongo
+  namespace: 3495p2
 spec:
   selector:
     app: mongo
@@ -164,6 +172,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongo
+  namespace: 3495p2
 spec:
   replicas: 1
   selector:
@@ -205,6 +214,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: storage
+  namespace: 3495p2
 spec:
   selector:
     app: storage
@@ -217,6 +227,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: storage
+  namespace: 3495p2
 spec:
   replicas: 1
   selector:
@@ -241,11 +252,58 @@ spec:
               name: secret
         ports:
         - containerPort: 5020
+---        
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: storage-hpa
+  namespace: 3495p2
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: storage
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 5
+      policies:
+      - type: Percent
+        value: 50
+        periodSeconds: 5
+    scaleUp:
+      stabilizationWindowSeconds: 0
+      policies:
+      - type: Percent
+        value: 100
+        periodSeconds: 5
+      - type: Pods
+        value: 4
+        periodSeconds: 5
+      selectPolicy: Max
+  # behavior:
+  #   scaleDown:
+  #     policies:
+  #     # - type: Pods
+  #     #   value: 4
+  #     #   periodSeconds: 60
+  #     - type: Percent
+  #       value: 50
+  #       periodSeconds: 60
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: processing
+  namespace: 3495p2
 spec:
   type: ClusterIP
   selector:
@@ -259,6 +317,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: processing
+  namespace: 3495p2
 spec:
   replicas: 1
   selector:
@@ -287,6 +346,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: results
+  namespace: 3495p2
 spec:
   type: ClusterIP
   selector:
@@ -300,6 +360,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: results
+  namespace: 3495p2
 spec:
   replicas: 1
   selector:
