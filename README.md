@@ -25,3 +25,9 @@
 `username: admin`
 `password: 3495admin`
 
+9.  test with test pod:
+  1). `kubectl run --rm -it apache-bench --image httpd -- bash`
+  
+  2). `echo '{"student_id": "1001", "subject": "Mathematics", "grade": 85, "receive_time": "2025-01-08T09:12:33.00111"}' > data.json`
+  
+  3). `ab -n 500 -c 100 -p data.json -T "application/json" http://storage:5020/submit_grade`
