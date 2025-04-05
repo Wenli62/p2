@@ -3,23 +3,24 @@
 
 2. adding namespace: 
 `kubectl apply -f n.yaml`
+`kubectl config set-context --current --namespace=3495p2`
 
-3. adding secret:
+4. adding secret:
 `kubectl apply -f secret.yaml`
 
-4. adding configMap:
+5. adding configMap:
 `kubectl apply -f configMap.yaml`
 
-5. creating ingress:
+6. creating ingress:
 `kubectl apply -f ingress.yaml`
 
-6. deploy:
+7. deploy:
 `kubectl apply -f deploy.yaml`
 
-7. check login IP:
+8. check login IP:
 `kubectl get svc -n ingress-nginx`  ####maybe use hostname later
 
-8. login:
+9. login:
 `http://<EXTERNAL-IP>/auth`
 
 `username: admin`
