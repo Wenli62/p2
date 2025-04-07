@@ -4,6 +4,7 @@ import logging.config
 import yaml
 from datetime import datetime, timezone
 import jwt
+import os
 
 def load_yaml(file, default={}):
     try:
@@ -13,7 +14,7 @@ def load_yaml(file, default={}):
         return default
 
 app_config = load_yaml('app_conf.yml')
-SECRET_KEY = app_config["secret_key"]
+SECRET_KEY = os.environ.get("secret_key")
 
 log_config = load_yaml('log_conf.yml')
 

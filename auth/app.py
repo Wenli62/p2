@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, jsonify
 import jwt
 from datetime import datetime, timedelta
 import yaml
+import os
 
 def load_yaml(file, default={}):
     try:
@@ -10,13 +11,12 @@ def load_yaml(file, default={}):
     except FileNotFoundError:
         return default
 
-app_config = load_yaml('app_conf.yml')
-SECRET_KEY = app_config["secret_key"]
+SECRET_KEY = os.environ.get("secret_key")
 
 
 app = Flask(__name__)
-
-users = app_config["users_db"]
+login_user = os.environ.get("login_user")
+login_pwd = os.environ.get("login_password")
 
 
 def create_jwt(username: str):
@@ -61,7 +61,8 @@ def login():
     username = data.get("username")
     password = data.get("password")
 
-    if users.get(username) == password:
+    if login_pwd == password and login_user == username:
+    # if users.get(username) == password:
         token = create_jwt(username)
         return jsonify({"access_token": token})
     else:

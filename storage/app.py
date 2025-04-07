@@ -8,10 +8,9 @@ from models import gradeReport
 import yaml
 import logging, logging.config
 import jwt
+import os
 
-
-with open('app_conf.yml', 'r') as f:
-    app_config = yaml.safe_load(f.read())
+SECRET_KEY = os.environ.get("secret_key")
 
 with open("log_conf.yml", "r") as f:
     LOG_CONFIG = yaml.safe_load(f.read())
@@ -29,9 +28,6 @@ def load_yaml(file, default={}):
             return yaml.safe_load(f)
     except FileNotFoundError:
         return default
-
-SECRET_KEY = app_config["secret_key"]
-
 
 def validate_token(token):
     try:

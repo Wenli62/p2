@@ -1,17 +1,15 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-import yaml
+import os
 
-with open('app_conf.yml', 'r') as f:
-    app_config = yaml.safe_load(f.read())
+mysql_user = os.environ.get("MYSQL_ROOT_USERNAME")
+mysql_pass = os.environ.get("MYSQL_ROOT_PASSWORD")
+mysql_host = os.environ.get("MYSQL_HOST")
+mysql_port = os.environ.get("MYSQL_PORT")
+mysql_db = os.environ.get("MYSQL_DATABASE")
+SECRET_KEY = os.environ.get("secret_key")
 
-user = app_config['datastore']['user']
-password = app_config['datastore']['password']
-hostname = app_config['datastore']['hostname']
-port = app_config['datastore']['port']
-db = app_config['datastore']['db']
-
-engine = create_engine(f"mysql://{user}:{password}@{hostname}:{port}/{db}")
+engine = create_engine(f"mysql://{mysql_user}:{mysql_pass}@{mysql_host}:{mysql_port}/{mysql_db}")
 
 def make_session():
     return sessionmaker(bind=engine)()

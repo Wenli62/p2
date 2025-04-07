@@ -1,13 +1,12 @@
 const mysql = require('mysql2/promise');
 const { MongoClient } = require("mongodb");
 
-// Establish connection to mysql database
 const sqlConnection = mysql.createPool({
-    host: 'mysql', //match hostname in deploy.html
-    user: 'root',
-    password: 'zxcvbnm',
-    database: 'db_grade',
-    port: 3306,
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_ROOT_USERNAME,
+    password: process.env.MYSQL_ROOT_PASSWORD,
+    database: process.env.MYSQL_DATABASE,
+    port: process.env.MYSQL_PORT,
     waitForConnections: true,
     connectionLimit: 10,
     maxIdle: 10,
@@ -15,13 +14,12 @@ const sqlConnection = mysql.createPool({
     queueLimit: 0
 });
 
-// Establish connection to mongodb database
-const username = "root"
-const password = "zxcvbnm"
-const host = "mongo" //match hostname in deploy.html
-const port = 27017
+const mongoUser = process.env.MONGO_INITDB_ROOT_USERNAME;
+const mongoPass = process.env.MONGO_INITDB_ROOT_PASSWORD;
+const mongoHost = process.env.MONGO_HOST;
+const mongoPort = process.env.MONGO_PORT;
 
-const mongoURI = `mongodb://${username}:${password}@${host}:${port}`;
+const mongoURI = `mongodb://${mongoUser}:${mongoPass}@${mongoHost}:${mongoPort}`;
 
 const mongoClient = new MongoClient(mongoURI);
 

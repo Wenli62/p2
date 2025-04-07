@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from pymongo import MongoClient
 import yaml
 import jwt
+import os
 
 def load_yaml(file, default={}):
     try:
@@ -12,15 +13,17 @@ def load_yaml(file, default={}):
 
 app = Flask(__name__)
 
+mongo_user = os.environ.get("MONGO_INITDB_ROOT_USERNAME")
+mongo_pass = os.environ.get("MONGO_INITDB_ROOT_PASSWORD")
+mongo_host = os.environ.get("MONGO_HOST")
+mongo_port = os.environ.get("MONGO_PORT")
+mongo_db = os.environ.get("MONGO_INITDB_DATABASE")
+SECRET_KEY = os.environ.get("secret_key")
 
-app_config = load_yaml("app_conf.yml")
-SECRET_KEY = app_config["secret_key"]
-
-mongo_cfg = app_config["mongodb_data"]
-mongo_uri = f"mongodb://{mongo_cfg['user']}:{mongo_cfg['password']}@{mongo_cfg['hostname']}:{mongo_cfg['port']}/"
+mongo_uri = f"mongodb://{mongo_user}:{mongo_pass}@{mongo_host}:{mongo_port}/"
 
 client = MongoClient(mongo_uri)
-db = client[mongo_cfg["db"]]
+db = client[mongo_db]
 
 stats = db["stats"]
 students = db["students"]

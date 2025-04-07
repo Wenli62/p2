@@ -29,7 +29,10 @@ spec:
     spec:
       containers:
         - name: auth
-          image: wenli6887/p2_auth:v3
+          image: wenli6887/p2_auth:v4
+          envFrom:
+            - secretRef:
+                name: secret
           command: ["python", "app.py"]
           resources:
             requests:
@@ -69,7 +72,7 @@ spec:
     spec:
       containers:
       - name: grade
-        image: wenli6887/p2_grade:v3
+        image: wenli6887/p2_grade:v4
         envFrom:
           - secretRef:
               name: secret
@@ -98,6 +101,7 @@ metadata:
   name: mysql
   namespace: 3495p2
 spec:
+  type: ClusterIP
   selector:
     app: mysql
   ports:
@@ -161,6 +165,7 @@ metadata:
   name: mongo
   namespace: 3495p2
 spec:
+  type: ClusterIP
   selector:
     app: mongo
   ports:
@@ -216,6 +221,7 @@ metadata:
   name: storage
   namespace: 3495p2
 spec:
+  type: ClusterIP
   selector:
     app: storage
   ports:
@@ -240,7 +246,7 @@ spec:
     spec:
       containers:
       - name: storage
-        image: wenli6887/p2_storage:v2
+        image: wenli6887/p2_storage:v3
         command: ["sh", "-c", "python db_manage.py drop && exec python app.py"]
         resources:
           requests:
@@ -330,7 +336,7 @@ spec:
     spec:
       containers:
         - name: processing
-          image: wenli6887/p2_processing:v2
+          image: wenli6887/p2_processing:v3
           ports:
             - containerPort: 3000
           resources:
@@ -373,7 +379,7 @@ spec:
     spec:
       containers:
         - name: results
-          image: wenli6887/p2_results:v2
+          image: wenli6887/p2_results:v3
           ports:
             - containerPort: 5030
           command: ["python", "app.py"]
