@@ -244,6 +244,10 @@ spec:
       labels:
         app: storage
     spec:
+      initContainers:
+      - name: check-mysql-ready
+        image: busybox:latest
+        command: ['sh', '-c', 'until nc -vz mysql 3306; do echo "Waiting for MySQL..."; sleep 2; done']
       containers:
       - name: storage
         image: wenli6887/p2_storage:v3
